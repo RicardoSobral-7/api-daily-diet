@@ -8,7 +8,7 @@ type TCreate = {
 }
 
 export async function Create({ email, fullName, password }: TCreate) {
-  await knex('users').returning('id').insert({
+  await knex('users').insert({
     id: randomUUID(),
     full_name: fullName,
     email,

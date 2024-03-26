@@ -15,12 +15,44 @@ describe('User Routes', () => {
     execSync('npm run knex migrate:latest')
   })
 
-  it('Should be able to create a new User', async () => {
-    const response = await request(app.server).post('/users').send({
-      fullName: 'Ricardo Sobral',
-      email: 'riki.sobral@gmail.com',
-      password: '123',
+  describe('Users Router', () => {
+    describe('Users Creation', () => {
+      it('Should be able to create a new User', async () => {
+        const response = await request(app.server).post('/users').send({
+          fullName: 'Ricardo Sobral',
+          email: 'riki.sobral@gmail.com',
+          password: '123',
+        })
+        expect(response.statusCode).toEqual(201)
+      })
+
+      it('Should not be able to create a new User without name', async () => {
+        const response = await request(app.server).post('/users').send({
+          email: 'riki.sobral@gmail.com',
+          password: '123',
+        })
+        expect(response.statusCode).toEqual(400)
+      })
+
+      it('Should not be able to create a new User without email', async () => {
+        const response = await request(app.server).post('/users').send({
+          fullName: 'Ricardo Sobral',
+          password: '123',
+        })
+        expect(response.statusCode).toEqual(400)
+      })
+
+      it('Should not be able to create a new User without password', async () => {
+        const response = await request(app.server).post('/users').send({
+          fullName: 'Ricardo Sobral',
+          email: 'riki.sobral@gmail.com',
+        })
+        expect(response.statusCode).toEqual(400)
+      })
     })
-    expect(response.statusCode).toEqual(201)
+    describe('Users List', () => {})
+    describe('Users Auth', () => {})
+    describe('Users update', () => {})
+    describe('Users Delete', () => {})
   })
 })
